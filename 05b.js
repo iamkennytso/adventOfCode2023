@@ -57,11 +57,22 @@ fs.readFile('./05.txt', 'utf8', (_, data) => {
   }
 
   let ans = Infinity
+  const actualSeeds = []
+  for (let i = 0; i < seeds.length; i += 2) {
+    for (let j = 0; j < seeds[i+1]; j++) {
+      actualSeeds.push(Number(seeds[i]) + Number(j))
+    }
+  }
+  const memo = {}
 
-  seeds.forEach(seed => {
-    const final = traverse(seed)
-    ans = Math.min(ans, final)
+  actualSeeds.forEach(seed => {
+    if (!(seed in memo)) {
+      const final = traverse(seed)
+      memo[seed] = final
+      ans = Math.min(ans, final)
+    }
   })
 
   console.log(ans)
 })
+// this times out
